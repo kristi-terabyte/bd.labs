@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Метод розділення змінних для гіперболічних рівнянь</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        .equation {
+            background-color: #f8f9fa;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        .step {
+            background-color: #fff;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .step-number {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .formula {
+            text-align: center;
+            margin: 15px 0;
+            font-size: 1.1em;
+        }
+        .boundary-conditions, .initial-conditions {
+            background-color: #e8f4f8;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .solution {
+            background-color: #d4edda;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #28a745;
+            border-radius: 5px;
+        }
+        .problem {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+        }
+        .problem-title {
+            background-color: #3498db;
+            color: white;
+            padding: 10px;
+            margin: -20px -20px 20px -20px;
+            border-radius: 6px 6px 0 0;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Метод розділення змінних (метод Фур'є) для гіперболічних рівнянь</h1>
+        
+        <div class="problem">
+            <div class="problem-title">Задача 1</div>
+            
+            <h2>Постановка задачі</h2>
+            <div class="equation">
+                <strong>Рівняння:</strong> U<sub>tt</sub> = 4U<sub>xx</sub>
+            </div>
+            
+            <div class="boundary-conditions">
+                <strong>Граничні умови:</strong><br>
+                U(0, t) = 0<br>
+                U(1, t) = 0
+            </div>
+            
+            <div class="initial-conditions">
+                <strong>Початкові умови:</strong><br>
+                U(x, 0) = 0<br>
+                U<sub>t</sub>(x, 0) = 3 sin(πx)
+            </div>
+            
+            <h2>Розв'язання методом розділення змінних</h2>
+            
+            <div class="step">
+                <span class="step-number">Крок 1</span>
+                <strong>Розділення змінних:</strong>
+                <div class="formula">
+                    U(x, t) = X(x) · T(t)
+                </div>
+                Підставляємо в рівняння:
+                <div class="formula">
+                    X(x)T''(t) = 4X''(x)T(t)
+                </div>
+                Розділяємо змінні:
+                <div class="formula">
+                    T''(t) / (4T(t)) = X''(x) / X(x) = -λ
+                </div>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">Крок 2</span>
+                <strong>Задача Штурма-Ліувілля для X(x):</strong>
+                <div class="formula">
+                    X''(x) + λX(x) = 0
+                </div>
+                з граничними умовами: X(0) = 0, X(1) = 0
+                <br><br>
+                Власні значення: λ<sub>n</sub> = (nπ)<sup>2</sup>, n = 1, 2, 3, ...
+                <br>
+                Власні функції: X<sub>n</sub>(x) = sin(nπx)
+            </div>
+            
+            <div class="step">
+                <span class="step-number">Крок 3</span>
+                <strong>Рівняння для T(t):</strong>
+                <div class="formula">
+                    T''(t) + 4λ<sub>n</sub>T(t) = 0
+                </div>
+                <div class="formula">
+                    T''(t) + 4(nπ)<sup>2</sup>T(t) = 0
+                </div>
+                Загальний розв'язок:
+                <div class="formula">
+                    T<sub>n</sub>(t) = A<sub>n</sub> cos(2nπt) + B<sub>n</sub> sin(2nπt)
+                </div>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">Крок 4</span>
+                <strong>Загальний розв'язок:</strong>
+                <div class="formula">
+                    U(x, t) = Σ<sub>n=1</sub><sup>∞</sup> [A<sub>n</sub> cos(2nπt) + B<sub>n</sub> sin(2nπt)] sin(nπx)
+                </div>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">Крок 5</span>
+                <strong>Визначення коефіцієнтів з початкових умов:</strong>
+                <br><br>
+                З умови U(x, 0) = 0:
+                <div class="formula">
+                    U(x, 0) = Σ<sub>n=1</sub><sup>∞</sup> A<sub>n</sub> sin(nπx) = 0
+                </div>
+                Отже, A<sub>n</sub> = 0 для всіх n.
+                <br><br>
+                З умови U<sub>t</sub>(x, 0) = 3 sin(πx):
+                <div class="formula">
+                    U<sub>t</sub>(x, 0) = Σ<sub>n=1</sub><sup>∞</sup> 2nπB<sub>n</sub> sin(nπx) = 3 sin(πx)
+                </div>
+                <br>
+                Порівнюючи коефіцієнти:
+                <div class="formula">
+                    2πB<sub>1</sub> = 3 ⟹ B<sub>1</sub> = 3/(2π)
+                </div>
+                <div class="formula">
+                    B<sub>n</sub> = 0 для n ≠ 1
+                </div>
+            </div>
+            
+            <div class="solution">
+                <h3>Фінальний розв'язок:</h3>
+                <div class="formula" style="font-size: 1.3em; font-weight: bold;">
+                    U(x, t) = (3/(2π)) sin(2πt) sin(πx)
+                </div>
+            </div>
+        </div>
+        
+        <div class="problem">
+            <div class="problem-title">Задача 2</div>
+            
+            <h2>Постановка задачі</h2>
+            <div class="equation">
+                <strong>Рівняння:</strong> U<sub>tt</sub> = 9U<sub>xx</sub>
+            </div>
+            
+            <div class="boundary-conditions">
+                <strong>Граничні умови:</strong><br>
+                U(0, t) = 0<br>
+                U(1, t) = 0
+            </div>
+            
+            <div class="initial-conditions">
+                <strong>Початкові умови:</strong><br>
+                U(x, 0) = cos(15πx)<br>
+                U<sub>t</sub>(x, 0) = 0
+            </div>
+            
+            <h2>Розв'язання методом розділення змінних</h2>
+            
+            <div class="step">
+                <span class="step-number">Крок 1</span>
+                <strong>Розділення змінних:</strong>
+                <div class="formula">
+                    U(x, t) = X(x) · T(t)
+                </div>
+                Підставляємо в рівняння:
+                <div class="formula">
+                    X(x)T''(t) = 9X''(x)T(t)
+                </div>
+                Розділяємо змінні:
+                <div class="formula">
+                    T''(t) / (9T(t)) = X''(x) / X(x) = -λ
+                </div>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">Крок 2</span>
+                <strong>Задача Штурма-Ліувілля для X(x):</strong>
+                <div class="formula">
+                    X''(x) + λX(x) = 0
+                </div>
+                з граничними умовами: X(0) = 0, X(1) = 0
+                <br><br>
+                Власні значення: λ<sub>n</sub> = (nπ)<sup>2</sup>, n = 1, 2, 3, ...
+                <br>
+                Власні функції: X<sub>n</sub>(x) = sin(nπx)
+            </div>
+            
+            <div class="step">
+                <span class="step-number">Крок 3</span>
+                <strong>Рівняння для T(t):</strong>
+                <div class="formula">
+                    T''(t) + 9λ<sub>n</sub>T(t) = 0
+                </div>
+                <div class="formula">
+                    T''(t) + 9(nπ)<sup>2</sup>T(t) = 0
+                </div>
+                Загальний розв'язок:
+                <div class="formula">
+                    T<sub>n</sub>(t) = A<sub>n</sub> cos(3nπt) + B<sub>n</sub> sin(3nπt)
+                </div>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">Крок 4</span>
+                <strong>Загальний розв'язок:</strong>
+                <div class="formula">
+                    U(x, t) = Σ<sub>n=1</sub><sup>∞</sup> [A<sub>n</sub> cos(3nπt) + B<sub>n</sub> sin(3nπt)] sin(nπx)
+                </div>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">Крок 5</span>
+                <strong>Визначення коефіцієнтів з початкових умов:</strong>
+                <br><br>
+                З умови U<sub>t</sub>(x, 0) = 0:
+                <div class="formula">
+                    U<sub>t</sub>(x, 0) = Σ<sub>n=1</sub><sup>∞</sup> 3nπB<sub>n</sub> sin(nπx) = 0
+                </div>
+                Отже, B<sub>n</sub> = 0 для всіх n.
+                <br><br>
+                З умови U(x, 0) = cos(15πx):
+                <div class="formula">
+                    U(x, 0) = Σ<sub>n=1</sub><sup>∞</sup> A<sub>n</sub> sin(nπx) = cos(15πx)
+                </div>
+                <br>
+                Розкладаємо cos(15πx) в ряд Фур'є по синусах на інтервалі [0,1]:
+                <div class="formula">
+                    cos(15πx) = Σ<sub>n=1</sub><sup>∞</sup> a<sub>n</sub> sin(nπx)
+                </div>
+                <br>
+                Коефіцієнти Фур'є:
+                <div class="formula">
+                    a<sub>n</sub> = 2∫<sub>0</sub><sup>1</sup> cos(15πx) sin(nπx) dx
+                </div>
+                <br>
+                Використовуючи формулу:
+                <div class="formula">
+                    ∫ cos(αx) sin(βx) dx = (1/2)[sin((α+β)x)/(α+β) - sin((α-β)x)/(α-β)]
+                </div>
+                <br>
+                Для n = 15:
+                <div class="formula">
+                    a<sub>15</sub> = 2∫<sub>0</sub><sup>1</sup> cos(15πx) sin(15πx) dx = 2 · (1/2)∫<sub>0</sub><sup>1</sup> sin(30πx) dx = 0
+                </div>
+                <br>
+                Для n ≠ 15:
+                <div class="formula">
+                    a<sub>n</sub> = 2 · [sin((15+n)π)/((15+n)π) - sin((15-n)π)/((15-n)π)]
+                </div>
+                <br>
+                Оскільки sin(kπ) = 0 для цілих k, отримуємо:
+                <div class="formula">
+                    a<sub>n</sub> = 0 для всіх n
+                </div>
+                <br>
+                <strong>Альтернативний підхід:</strong> Використовуємо формулу Ейлера та тотожність:
+                <div class="formula">
+                    cos(15πx) = (e<sup>i15πx</sup> + e<sup>-i15πx</sup>)/2
+                </div>
+                <br>
+                Або використовуємо розклад через косинуси:
+                <div class="formula">
+                    cos(15πx) = Σ<sub>n=0</sub><sup>∞</sup> c<sub>n</sub> cos(nπx)
+                </div>
+                <br>
+                Оскільки cos(15πx) не є непарною функцією, а наш базис складається з sin(nπx), 
+                потрібно знайти коефіцієнти розкладу. Використовуючи інтеграл:
+                <div class="formula">
+                    A<sub>n</sub> = 2∫<sub>0</sub><sup>1</sup> cos(15πx) sin(nπx) dx
+                </div>
+                <br>
+                Після обчислення (використовуючи формулу добутку тригонометричних функцій):
+                <div class="formula">
+                    A<sub>n</sub> = (2nπ/(n²π² - 225π²))[1 - (-1)<sup>n</sup>cos(15π)]
+                </div>
+                <br>
+                Оскільки cos(15π) = cos(π) = -1 (15 - непарне число), то:
+                <div class="formula">
+                    A<sub>n</sub> = (2nπ/(n²π² - 225π²))[1 - (-1)<sup>n</sup>(-1)] = (2nπ/(n²π² - 225π²))[1 + (-1)<sup>n</sup>]
+                </div>
+                <br>
+                Це дає ненульові коефіцієнти тільки для парних n. Однак, більш простий підхід:
+                <br><br>
+                Використовуючи тотожність sin(α)cos(β) = ½[sin(α+β) + sin(α-β)]:
+                <div class="formula">
+                    A<sub>n</sub> = 2∫<sub>0</sub><sup>1</sup> cos(15πx) sin(nπx) dx = ∫<sub>0</sub><sup>1</sup> [sin((n+15)πx) + sin((n-15)πx)] dx
+                </div>
+                <br>
+                Для n ≠ 15:
+                <div class="formula">
+                    A<sub>n</sub> = [-cos((n+15)πx)/((n+15)π) - cos((n-15)πx)/((n-15)π)]<sub>0</sub><sup>1</sup>
+                </div>
+                <div class="formula">
+                    = [-cos((n+15)π)/((n+15)π) - cos((n-15)π)/((n-15)π)] + [1/((n+15)π) + 1/((n-15)π)]
+                </div>
+                <br>
+                Спрощуючи та враховуючи, що cos(kπ) = (-1)<sup>k</sup>:
+                <div class="formula">
+                    A<sub>n</sub> = [1 - (-1)<sup>n+15</sup>]/((n+15)π) + [1 - (-1)<sup>n-15</sup>]/((n-15)π)
+                </div>
+                <br>
+                Оскільки 15 - непарне, то (-1)<sup>n+15</sup> = -(-1)<sup>n</sup> та (-1)<sup>n-15</sup> = -(-1)<sup>n</sup>:
+                <div class="formula">
+                    A<sub>n</sub> = [1 + (-1)<sup>n</sup>]/((n+15)π) + [1 + (-1)<sup>n</sup>]/((n-15)π)
+                </div>
+                <div class="formula">
+                    = [1 + (-1)<sup>n</sup>][1/((n+15)π) + 1/((n-15)π)]
+                </div>
+                <div class="formula">
+                    = [1 + (-1)<sup>n</sup>] · (2nπ)/((n²-225)π²)
+                </div>
+                <div class="formula">
+                    = 2n[1 + (-1)<sup>n</sup>]/((n²-225)π)
+                </div>
+            </div>
+            
+            <div class="solution">
+                <h3>Фінальний розв'язок:</h3>
+                <div class="formula" style="font-size: 1.2em;">
+                    U(x, t) = Σ<sub>n=1</sub><sup>∞</sup> A<sub>n</sub> cos(3nπt) sin(nπx)
+                </div>
+                <div class="formula" style="font-size: 1.1em;">
+                    де A<sub>n</sub> = 2n[1 + (-1)<sup>n</sup>]/((n²-225)π) для n ≠ 15
+                </div>
+                <div class="formula" style="font-size: 1.1em;">
+                    A<sub>15</sub> = 0
+                </div>
+                <br>
+                <strong>Примітка:</strong> Коефіцієнти A<sub>n</sub> відмінні від нуля тільки для парних n.
+            </div>
+        </div>
+        
+        <div class="container" style="margin-top: 30px; background-color: #fff3cd; border: 1px solid #ffc107;">
+            <h2 style="color: #856404;">Пояснення методу</h2>
+            <p>Метод розділення змінних (метод Фур'є) для гіперболічних рівнянь полягає в наступному:</p>
+            <ol>
+                <li>Шукаємо розв'язок у вигляді добутку функцій, що залежать тільки від однієї змінної</li>
+                <li>Підставляємо в рівняння та розділяємо змінні</li>
+                <li>Отримуємо задачу Штурма-Ліувілля для просторової частини</li>
+                <li>Знаходимо власні значення та власні функції</li>
+                <li>Розв'язуємо звичайне диференційне рівняння для часової частини</li>
+                <li>Складаємо загальний розв'язок у вигляді ряду</li>
+                <li>Визначаємо коефіцієнти з початкових умов, використовуючи розклад у ряд Фур'є</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>
